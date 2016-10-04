@@ -3,6 +3,7 @@ package data_access.entity;
 import data_access.NaturalCustomerCRUD;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by DOTIN SCHOOL 4 on 9/28/2016.
@@ -83,5 +84,9 @@ public class NaturalCustomer {
     @Override
     public String toString() {
         return getFirstName() + ", " + getLastName() + ", " + getFatherName() + ", " + getDateOfBirth() + ", " + getNationalCode();
+    }
+
+    public static ArrayList<NaturalCustomer> search(String searchValue) throws SQLException {
+        return  NaturalCustomerCRUD.findCustomerByFirstName(searchValue);
     }
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Created by DOTIN SCHOOL 4 on 10/1/2016.
@@ -35,7 +36,7 @@ public class CreateNaturalCustomerServlet extends HttpServlet {
 
         //NaturalCustomerLogic.create(naturalCustomer);
         try {
-            naturalCustomer.insertNaturalCustomer();
+              naturalCustomer.insertNaturalCustomer();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -13,46 +13,31 @@
     <div class="content">
         <div class="layer">
             <div class="layer-in">
-                <br>
-                <br>
-                <p>جستجو بر اساس</p>
-                <div class="search-box">
-                    <select name="searchFilter">
-                        <option value="firstName">نام</option>
-                        <option value="LastName">نام خانوادگی</option>
-                        <option value="nationalCode">کد ملی</option>
-                        <option value="customerId">شماره مشتری</option>
-                    </select>
-                    <br>
-                    <br>
-                    <form action="SearchNaturalCustomer" >
-                        <input type="text" name="searchValue">
-                    </form>
-                </div>
-                <br>
-                <a href="../natural-customer-search-result.html" class="form">جستجو</a>
                 <%
-                int count = 0;
-                ArrayList<NaturalCustomer> naturalCustomers = (ArrayList<NaturalCustomer>) request.getAttribute("naturalCustomers");
-                if (naturalCustomers.size() > 0) {
+                    int count = 0;
+                    ArrayList<NaturalCustomer> naturalCustomers = (ArrayList<NaturalCustomer>) request.getAttribute("naturalCustomers");
+                    if (naturalCustomers.size() > 0) {
                 %>
+                <br>
+                <br>
                 <p>نتایج جستجو</p>
                 <table>
                     <thead>
                     <tr>
+                        <th>ردیف</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
                         <th>نام پدر</th>
                         <th>تاریخ تولد</th>
                         <th>کد ملی</th>
                         <th>شماره مشتری</th>
-                        <th> ویرایش/حذف </th>
+                        <th>عملیات</th>
                     </tr>
                     </thead>
                     <tbody>
                     <%
-                    for (NaturalCustomer naturalCustomer : naturalCustomers) {
-                    count++;
+                        for (NaturalCustomer naturalCustomer : naturalCustomers) {
+                            count++;
                     %>
                     <tr>
                         <td>
@@ -76,11 +61,14 @@
                         <td>
                             <%=naturalCustomer.getCustomerId()%>
                         </td>
+
                         <td><a href=""
-                               class=form>حذف</a>
-                            <a href=""
-                               class=form>ویرایش</a>
+                               class=form id="btn1">حذف</a>
+
+                            <a href="../natural-customer-edit.html"
+                               class=form id="btn2">ویرایش</a>
                         </td>
+
                     </tr>
                     <%}%>
                     </tbody>
@@ -89,7 +77,7 @@
                 <h3>مشتری با مشخصات وارد شده وجود ندارد</h3>
                 <%}%>
 
-                <a href="../natural-customer-management.html" class=form>بازگشت به صفحه قبل</a>
+                <a href="../natural-customer-search.html" class=form>بازگشت به صفحه قبل</a>
             </div>
         </div>
     </div>

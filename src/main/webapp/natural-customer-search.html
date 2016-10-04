@@ -15,6 +15,7 @@
                 <br>
                 <p>جستجو بر اساس</p>
                 <div class="search-box">
+                    <form action="SearchNaturalCustomer" method="post" onsubmit="">
                     <select name="searchFilter">
                         <option value="firstName">نام</option>
                         <option value="LastName">نام خانوادگی</option>
@@ -23,13 +24,14 @@
                     </select>
                     <br>
                     <br>
-                    <form action="SearchNaturalCustomer" >
+
                         <input type="text" name="searchValue">
+                        <br>
+                        <input type="submit" class="button" value="جستجو">
+                        <a href="../natural-customer-management.html" class="form">بازگشت به صفحه قبل</a>
                     </form>
                 </div>
-                <br>
-                <input type="submit" class="button" value="جستجو">
-                <a href="../natural-customer-management.html" class="form">بازگشت به صفحه قبل</a>
+
             </div>
         </div>
     </div>

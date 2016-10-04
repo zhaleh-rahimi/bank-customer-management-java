@@ -164,9 +164,11 @@ body {
 }
 
 
+
 table {
     width: 100%;
 }
+
 
 th , td {
     height: 50px;
@@ -174,6 +176,16 @@ th , td {
     text-align: center;
 }
 
+#btn1, #btn2 {
+    background-color: #0b5620;
+    border: solid;
+    border-color: #0b5620;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-family: farsiFont;
+}
 .newId {
     color: #b80000;
     background-color: chartreuse;

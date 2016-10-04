@@ -3,6 +3,7 @@ package data_access;
 import data_access.entity.NaturalCustomer;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import static data_access.DataBaseConnection.getDBConnection;
 
@@ -46,7 +47,7 @@ public class NaturalCustomerCRUD {
         }
     }
 
-    public static void main(String[] argv) {
+    public static void main(String[] argv) throws SQLException {
         NaturalCustomer naturalCustomer = new NaturalCustomer();
         naturalCustomer.setFirstName("مهلا");
         naturalCustomer.setLastName("محمدی");
@@ -58,9 +59,32 @@ public class NaturalCustomerCRUD {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
 
-    public static void findCustomerByFirstName() {
+        findCustomerByFirstName("ali");
+    }
+    public static ArrayList<NaturalCustomer> findCustomerByFirstName(String name) throws SQLException {
+        Connection dbConnection = getDBConnection();
+        String searchQueryStr = "SELECT * FROM natural_customer WHERE first_name = ?";
+        PreparedStatement statement = dbConnection.prepareStatement(searchQueryStr);
+        statement.setString(1, name);
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<NaturalCustomer> naturalCustomers=new ArrayList<NaturalCustomer>();
+        while(resultSet.next()){
+            NaturalCustomer naturalCustomer=new NaturalCustomer();
+            //Retrieve by column name
+            naturalCustomer.setCustomerId(resultSet.getInt("natural_customer_number"));
+            naturalCustomer.setFirstName(resultSet.getString("first_name"));
+            naturalCustomer.setLastName(resultSet.getString("last_name"));
+            naturalCustomer.setDateOfBirth(resultSet.getString("date_of_birth"));
+            naturalCustomer.setNationalCode(resultSet.getString("national_code"));
+            naturalCustomer.setFatherName(resultSet.getString("father_name"));
+            naturalCustomers.add(naturalCustomer);
+            //Display values
+            System.out.println(naturalCustomer.toString());
+        }
+        resultSet.close();
+        System.out.println(naturalCustomers);
+        return  naturalCustomers;
     }
 
     public static void findCustomerByLAstName() {
