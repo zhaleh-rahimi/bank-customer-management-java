@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <link href=cssfile/styleSheet.css rel=stylesheet>
+    <title>ثبت مشتری حقیقی جدید</title>
+</head>
+<body>
+<div id="wrapper">
+    <hr class="hrshow">
+    <div class="content">
+        <div class="layer">
+            <div class="layer-in">
+                <br>
+                <p>لطفا اطلاعات مشتری را وارد نمایید.</p>
+                <br>
+                <form action="CreateNaturalCustomer" method="post" onsubmit="">
+                    <table>
+                        <tr>
+                            <td> نام</td>
+                            <td><input type="text" name="firstName"></td>
+                        </tr>
+                        <tr>
+                            <td> نام خانوادگی</td>
+                            <td><input type="text" name="lastName"></td>
+                        </tr>
+                        <tr>
+                            <td>نام پدر</td>
+                            <td><input type="text" name="fatherName"></td>
+                        </tr>
+                        <tr>
+                            <td>تاریخ تولد</td>
+                            <td><input type="DATE" name="dateOfBirth"></td>
+                        </tr>
+                        <tr>
+                            <td>کد ملی</td>
+                            <td><input type="text" name="nationalCode" id="nationalCode">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <input type="submit" class="button" value="ثبت اطلاعات">
+                    <a href="../customer-type-selection.html" class="form">بازگشت به صفحه قبل</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

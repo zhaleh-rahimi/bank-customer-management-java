@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <link href=cssfile/styleSheet.css rel=stylesheet>
+    <title>جستجوی مشتری حقیقی</title>
+</head>
+<body>
+<div id="wrapper">
+    <hr class="hrshow">
+    <div class="content">
+        <div class="layer">
+            <div class="layer-in">
+                <br>
+                <br>
+                <p>جستجو بر اساس</p>
+                <div class="search-box">
+                    <select name="searchFilter">
+                        <option value="firstName">نام</option>
+                        <option value="LastName">نام خانوادگی</option>
+                        <option value="nationalCode">کد ملی</option>
+                        <option value="customerId">شماره مشتری</option>
+                    </select>
+                    <br>
+                    <br>
+                    <form action="SearchNaturalCustomer" >
+                        <input type="text" name="searchValue">
+                    </form>
+                </div>
+                <br>
+                <input type="submit" class="button" value="جستجو">
+                <a href="../natural-customer-management.html" class="form">بازگشت به صفحه قبل</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
