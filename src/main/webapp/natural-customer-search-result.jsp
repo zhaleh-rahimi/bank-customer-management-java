@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id="wrapper">
-    <hr class="hrshow">
+    <hr class="hr">
     <div class="content">
         <div class="layer">
             <div class="layer-in">
@@ -21,7 +21,7 @@
                 <br>
                 <br>
                 <p>نتایج جستجو</p>
-                <table>
+                <table id="customers">
                     <thead>
                     <tr>
                         <th>ردیف</th>
