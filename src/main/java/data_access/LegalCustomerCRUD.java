@@ -1,9 +1,9 @@
 package data_access;
 
 import data_access.entity.LegalCustomer;
-import data_access.entity.NaturalCustomer;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import static data_access.DataBaseConnection.getDBConnection;
 
@@ -11,6 +11,8 @@ import static data_access.DataBaseConnection.getDBConnection;
  * Created by DOTIN SCHOOL 4 on 9/28/2016.
  */
 public class LegalCustomerCRUD {
+    private static ArrayList<LegalCustomer> legalCustomers=null;
+
     public static void insertIntoLegalCustomerTable(LegalCustomer legalCustomer) throws SQLException {
 
         Connection dbConnection = null;
@@ -48,6 +50,57 @@ public class LegalCustomerCRUD {
                 dbConnection.close();
             }
         }
+    }
+    private static ArrayList<LegalCustomer> setSearchResult(ResultSet resultSet) throws SQLException {
+        ArrayList<LegalCustomer> legalCustomers = new ArrayList<LegalCustomer>();
+        while (resultSet.next()) {
+            LegalCustomer legalCustomer = new LegalCustomer();
+            //Retrieve by column name
+            legalCustomer.setCustomerId(resultSet.getInt("legal_customer_number"));
+            legalCustomer.setCompanyName(resultSet.getString("name"));
+            legalCustomer.setRegistrationDate(resultSet.getString("registration_Date"));
+            legalCustomer.setEconomicCode(resultSet.getString("economic_code"));
+            legalCustomers.add(legalCustomer);
+            //Display values for test
+            System.out.println(legalCustomer.toString());
+        }
+        return legalCustomers;
+    }
+
+    public static ArrayList<LegalCustomer> findCustomerByCompanyName(String name) throws SQLException {
+        String searchQueryStr = "SELECT * FROM legal_customer WHERE name = ?";
+        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+        statement.setString(1, name);
+        ResultSet resultSet = statement.executeQuery();
+        legalCustomers = setSearchResult(resultSet);
+        resultSet.close();
+        //Display values for test
+        System.out.println(legalCustomers);
+        return legalCustomers;
+    }
+
+    public static ArrayList<LegalCustomer> findCustomerByEconomicCode(String economicCode) throws SQLException {
+        String searchQueryStr = "SELECT * FROM legal_customer WHERE economic_code = ?";
+        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+        statement.setString(1, economicCode);
+        ResultSet resultSet = statement.executeQuery();
+        legalCustomers = setSearchResult(resultSet);
+        resultSet.close();
+        //Display values for test
+        System.out.println(legalCustomers);
+        return legalCustomers;
+    }
+
+    public static ArrayList<LegalCustomer> findCustomerById(String id) throws SQLException {
+        String searchQueryStr = "SELECT * FROM legal_customer WHERE legal_customer_number= ?";
+        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+        statement.setInt(1, Integer.parseInt(id));
+        ResultSet resultSet = statement.executeQuery();
+        legalCustomers = setSearchResult(resultSet);
+        resultSet.close();
+        //Display values for test
+        System.out.println(legalCustomers);
+        return legalCustomers;
     }
 
     /*public static void main(String[] argv) throws SQLException {

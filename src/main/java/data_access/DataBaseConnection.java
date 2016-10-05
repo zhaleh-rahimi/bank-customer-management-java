@@ -1,8 +1,6 @@
 package data_access;
 
-import data_access.entity.LegalCustomer;
-import data_access.entity.NaturalCustomer;
-
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -15,8 +13,8 @@ public class DataBaseConnection {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
 
-    public static java.sql.Connection getDBConnection() {
-        java.sql.Connection dbConnection = null;
+    public static Connection getDBConnection() {
+        Connection dbConnection = null;
         try {
             Class.forName(DB_DRIVER);
         } catch (ClassNotFoundException e) {

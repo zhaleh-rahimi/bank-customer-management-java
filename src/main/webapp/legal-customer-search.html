@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <link href=cssfile/styleSheet.css rel=stylesheet>
+    <title>ثبت مشتری حقوقی جدید</title>
+</head>
+<body>
+<div id="wrapper">
+    <hr class="hr">
+    <div class="content">
+        <div class="layer">
+            <div class="layer-in">
+                <br>
+                <br>
+                <p>جستجو بر اساس</p>
+                <div class="search-box">
+                    <form action="SearchLegalCustomer" method="post" onsubmit="">
+                        <select name="searchFilter">
+                            <option value="companyName">نام شرکت</option>
+                            <option value="economicCode">شماره اقتصادی</option>
+                            <option value="customerId">شماره مشتری</option>
+                        </select>
+                        <br>
+                        <br>
+
+                        <input type="text" name="searchValue">
+                        <br>
+                        <input type="submit" class="button" value="جستجو">
+                        <a href="../legal-customer-management.html" class="form">بازگشت به صفحه قبل</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

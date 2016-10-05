@@ -1,5 +1,6 @@
 package servlet;
 
+import business_logic.NaturalCustomerLogic;
 import data_access.entity.NaturalCustomer;
 
 import javax.servlet.ServletException;
@@ -30,7 +31,17 @@ public class SearchNaturalCustomerServlet extends HttpServlet {
         ArrayList<NaturalCustomer> naturalCustomers = null;
 
         try {
-            naturalCustomers = NaturalCustomer.search(searchValueStr);
+            if(searchFilter.equals("firstName")){
+            naturalCustomers = NaturalCustomerLogic.searchByFirstName(searchValueStr);}
+            else if(searchFilter.equals("lastName")){
+                naturalCustomers = NaturalCustomerLogic.searchByLastName(searchValueStr);
+            }
+            else if(searchFilter.equals("nationalCode")){
+                naturalCustomers = NaturalCustomerLogic.searchByNationalCode(searchValueStr);
+            }
+            else if(searchFilter.equals("customerId")){
+                naturalCustomers = NaturalCustomerLogic.searchById(searchValueStr);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();

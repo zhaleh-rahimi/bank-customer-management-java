@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Created by dotinschool3 on 10/3/2016.
@@ -18,6 +19,9 @@ import java.io.IOException;
 @WebServlet(name = "CreateLegalCustomerServlet", urlPatterns = "/CreateLegalCustomer")
 public class CreateLegalCustomerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
         LegalCustomer legalCustomer = new LegalCustomer();
         legalCustomer.setCompanyName(request.getParameter("companyName"));
@@ -25,10 +29,14 @@ public class CreateLegalCustomerServlet extends HttpServlet {
         legalCustomer.setEconomicCode(request.getParameter("economicCode"));
         System.out.println(legalCustomer.toString());
 
-        LegalCustomerLogic.create(legalCustomer);
+        try {
+            LegalCustomerLogic.create(legalCustomer);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        RequestDispatcher view = request.getRequestDispatcher("legal-customer-registration-result.html");
-        view.forward(request, response);
+        request.setAttribute("legalCustomer", legalCustomer);
+        getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-registration-result.jsp").forward(request, response);
 
     }
 
