@@ -16,8 +16,8 @@
                 <p>لطفا اطلاعات مشتری را وارد نمایید.</p>
                 <br>
 
-                <form action="UpdateNaturalCustomer" name="edit" method="get" >
-                    <input type="hidden" name="action" value="edit-natural-customer">
+                <form action="UpdateLegalCustomer" name="edit" method="get" >
+                    <input type="hidden" name="action" value="edit-legal-customer">
                     <table>
                         <%
                             LegalCustomer legalCustomer = (LegalCustomer) request.getAttribute("legalCustomer");

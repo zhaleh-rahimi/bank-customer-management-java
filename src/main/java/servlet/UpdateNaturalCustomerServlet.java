@@ -39,7 +39,7 @@ public class UpdateNaturalCustomerServlet extends HttpServlet {
     private void sendDataToEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         NaturalCustomer naturalCustomer = setNaturalCustomerValues(
-                Integer.parseInt(request.getParameter("customerId")),
+                Integer.parseInt(request.getParameter("id")),
                 request.getParameter("firstName"),
                 request.getParameter("lastName"),
                 request.getParameter("fatherName"),

@@ -18,10 +18,10 @@
 
                 <form action="UpdateNaturalCustomer" name="edit" method="get" >
                     <input type="hidden" name="action" value="edit-natural-customer">
+                    <%
+                        NaturalCustomer naturalCustomer = (NaturalCustomer) request.getAttribute("naturalCustomer");
+                    %>
                     <table>
-                        <%
-                            NaturalCustomer naturalCustomer = (NaturalCustomer) request.getAttribute("naturalCustomer");
-                        %>
                         <tr>
                             <td>شماره مشتری</td>
                             <td><input type='text' name='customerId' value="<%=naturalCustomer.getCustomerId()%>"
@@ -29,24 +29,25 @@
                         </tr>
                         <tr>
                             <td> نام</td>
-                            <td><input type="text" name="firstName" value="<%=naturalCustomer.getFirstName()%>"></td>
+                            <td><input type='text' name='firstName' value="<%=naturalCustomer.getFirstName()%>"></td>
                         </tr>
                         <tr>
-                            <td> نام خانوادگی</td>
-                            <td><input type="text" name="lastName" value="<%=naturalCustomer.getLastName()%>"></td>
+                        <td> نام خانوادگی</td>
+                        <td><input type='text' name='lastName' value="<%=naturalCustomer.getLastName()%>"></td>
                         </tr>
                         <tr>
-                            <td>نام پدر</td>
-                            <td><input type="text" name="fatherName" value="<%=naturalCustomer.getFatherName()%>"></td>
+                        <td> نام پدر</td>
+                        <td><input type='text' name='fatherName' value="<%=naturalCustomer.getFatherName()%>"></td>
                         </tr>
                         <tr>
-                            <td>تاریخ تولد</td>
-                            <td><input type="DATE" name="dateOfBirth" value="<%=naturalCustomer.getDateOfBirth()%>"></td>
+                            <td> تاریخ تولد</td>
+                            <td><input type='DATE' name='dateOfBirth' value="<%=naturalCustomer.getDateOfBirth()%>">
+                            </td>
                         </tr>
                         <tr>
                             <td>کد ملی</td>
-                            <td><input type="text" name="nationalCode" value="<%=naturalCustomer.getNationalCode()%>">
-                            </td>
+                            <td><input type='text' name='nationalCode'
+                                       value="<%=naturalCustomer.getNationalCode()%>"></td>
                         </tr>
                     </table>
 

@@ -28,7 +28,7 @@
                     </tr>
                     <tbody>
                     <%
-                    LegalCustomer legalCustomer = (LegalCustomer) request.getAttribute("legalCustomer");
+                        LegalCustomer legalCustomer = (LegalCustomer) request.getAttribute("legalCustomer");
                     %>
                     <tr>
 
@@ -54,7 +54,8 @@
     </div>
 </div>
 </body>
-</html></title>
+</html>
+</title>
 </head>
 <body>
 

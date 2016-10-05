@@ -44,7 +44,7 @@ public class UpdateLegalCustomerServlet extends HttpServlet {
         );
         legalCustomer = LegalCustomerLogic.updateLegalCustomer(legalCustomer);
         request.setAttribute("legalCustomer",legalCustomer);
-        getServletConfig().getServletContext().getRequestDispatcher("natural-customer-edit.jsp").forward(request,response);
+        getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-edit-result.jsp").forward(request,response);
 
     }
 
@@ -55,13 +55,13 @@ public class UpdateLegalCustomerServlet extends HttpServlet {
 
     private void sendDataToEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LegalCustomer legalCustomer = setLegalCustomerValues(
-                Integer.parseInt(request.getParameter("customerId")),
+                Integer.parseInt(request.getParameter("id")),
                 request.getParameter("companyName"),
                 request.getParameter("economicCode"),
                 request.getParameter("registrationDate")
         );
         request.setAttribute("legalCustomer",legalCustomer);
-        getServletConfig().getServletContext().getRequestDispatcher("natural-customer-edit.jsp").forward(request,response);
+        getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-edit.jsp").forward(request,response);
     }
 
     private LegalCustomer setLegalCustomerValues(Integer id, String name, String economicCode, String registrationDate) {

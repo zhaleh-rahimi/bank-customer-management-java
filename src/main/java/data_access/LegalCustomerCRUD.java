@@ -109,12 +109,11 @@ public class LegalCustomerCRUD {
                 + " WHERE natural_customer_number = " + legalCustomer.getCustomerId();
 
         try {
-            //inserting values into natural_customer table
+            //inserting values into legal_customer table
             PreparedStatement preparedStatement = getDBConnection().prepareStatement(updateQueryStr);
             preparedStatement.setString(1, legalCustomer.getCompanyName());
-            preparedStatement.setString(2, legalCustomer.getEconomicCode());
-            preparedStatement.setDate(3, Date.valueOf(legalCustomer.getRegistrationDate()));
-
+            preparedStatement.setDate(2, Date.valueOf(legalCustomer.getRegistrationDate()));
+            preparedStatement.setString(3, legalCustomer.getEconomicCode());
             preparedStatement.executeUpdate();
             //show the result of update for test
             System.out.println("Record is updated in legal_customer table!"+legalCustomer);

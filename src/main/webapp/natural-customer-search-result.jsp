@@ -65,7 +65,7 @@
                         <td><a href="UpdateNaturalCustomer?action=delete-natural-customer&id=<%=naturalCustomer.getCustomerId() %>"
                                class=form id="btn1">حذف</a>
 
-                            <a href="UpdateNaturalCustomer?action=send-to-edit-page-natural-customer&id=<%=naturalCustomer.getCustomerId()%>&firstName=<%=naturalCustomer.getFirstName()%>&lastName=<%=naturalCustomer.getLastName()%>&fatherName=<%=naturalCustomer.getFatherName()%>&dateOfBirth=<%=naturalCustomer.getDateOfBirth()%>&nationalCode=<%=naturalCustomer.getNationalCode()%> "
+                            <a href="UpdateNaturalCustomer?action=send-to-edit-page-natural-customer&id=<%=naturalCustomer.getCustomerId()%>&firstName=<%=naturalCustomer.getFirstName()%>&lastName=<%=naturalCustomer.getLastName()%>&fatherName=<%=naturalCustomer.getFatherName()%>&dateOfBirth=<%=naturalCustomer.getDateOfBirth()%>&nationalCode=<%=naturalCustomer.getNationalCode()%>"
                                class=form id="btn2">ویرایش</a>
 
                         </td>

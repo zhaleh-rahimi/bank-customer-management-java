@@ -53,10 +53,10 @@
                         <td>
                             <%=legalCustomer.getCustomerId()%>
                         </td>
-                        <td><a href=""
+                        <td><a href="UpdateLegalCustomer?action=delete-legal-customer&id=<%=legalCustomer.getCustomerId() %>"
                                class=form id="btn1">حذف</a>
 
-                            <a href="../legal-customer-edit.html"
+                            <a href="UpdateLegalCustomer?action=send-to-edit-page-legal-customer&id=<%=legalCustomer.getCustomerId()%>&companyName=<%=legalCustomer.getCompanyName()%>&registrationDate=<%=legalCustomer.getRegistrationDate()%>&economicCode=<%=legalCustomer.getEconomicCode()%>"
                                class=form id="btn2">ویرایش</a>
                         </td>
 
