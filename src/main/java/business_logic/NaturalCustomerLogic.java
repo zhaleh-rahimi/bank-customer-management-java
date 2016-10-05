@@ -35,7 +35,7 @@ public class NaturalCustomerLogic {
         NaturalCustomerCRUD.deleteFromNaturalCustomerTable(customerId);
     }
 
-    public static void updateNaturalCustomer(NaturalCustomer naturalCustomer) {
-        NaturalCustomerCRUD.updateNaturalCustomerInTable(naturalCustomer);
+    public static NaturalCustomer updateNaturalCustomer(NaturalCustomer naturalCustomer) {
+        return NaturalCustomerCRUD.updateNaturalCustomerInTable(naturalCustomer);
     }
 }

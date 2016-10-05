@@ -21,13 +21,13 @@ public class UpdateNaturalCustomerServlet extends HttpServlet {
         String action = request.getParameter("action");
         request.setCharacterEncoding("UTF-8");
         try {
-            if ("send-to-edit-page".equalsIgnoreCase(action)) {
+            if ("send-to-edit-page-natural-customer".equalsIgnoreCase(action)) {
                 sendDataToEditPage(request, response);
             }
-            if ("delete".equalsIgnoreCase(action)) {
+            if ("delete-natural-customer".equalsIgnoreCase(action)) {
                 deleteNaturalCustomer(request, response);
             }
-            if ("edit".equalsIgnoreCase(action)) {
+            if ("edit-natural-customer".equalsIgnoreCase(action)) {
                 editNaturalCustomer(request, response);
             }
         } catch (SQLException e) {
@@ -37,30 +37,29 @@ public class UpdateNaturalCustomerServlet extends HttpServlet {
     }
 
     private void sendDataToEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        NaturalCustomer naturalCustomer = new NaturalCustomer();
-        int customerId = Integer.parseInt(request.getParameter("id"));
-        naturalCustomer.setCustomerId(customerId);
-        naturalCustomer.setFirstName(request.getParameter("firstName"));
-        naturalCustomer.setLastName(request.getParameter("lastName"));
-        naturalCustomer.setFatherName(request.getParameter("fatherName"));
-        naturalCustomer.setDateOfBirth(request.getParameter("dateOfBirth"));
-        naturalCustomer.setNationalCode(request.getParameter("nationalCode"));
-        System.out.println(naturalCustomer);
+
+        NaturalCustomer naturalCustomer = setNaturalCustomerValues(
+                Integer.parseInt(request.getParameter("customerId")),
+                request.getParameter("firstName"),
+                request.getParameter("lastName"),
+                request.getParameter("fatherName"),
+                request.getParameter("dateOfBirth"),
+                request.getParameter("nationalCode"));
+
         request.setAttribute("naturalCustomer", naturalCustomer);
         getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-edit.jsp").forward(request, response);
     }
 
-    private void editNaturalCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        NaturalCustomer naturalCustomer = new NaturalCustomer();
-        naturalCustomer.setCustomerId(Integer.parseInt(request.getParameter("customerId")));
-        naturalCustomer.setFirstName(request.getParameter("firstName"));
-        naturalCustomer.setLastName(request.getParameter("lastName"));
-        naturalCustomer.setFatherName(request.getParameter("fatherName"));
-        naturalCustomer.setDateOfBirth(request.getParameter("dateOfBirth"));
-        naturalCustomer.setNationalCode(request.getParameter("nationalCode"));
-        System.out.println("in editNatural Method before sending to DA"+naturalCustomer);
-        naturalCustomer=NaturalCustomerLogic.updateNaturalCustomer(naturalCustomer);
-        System.out.println("in editNAtural after getting from DA"+naturalCustomer);
+    private void editNaturalCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        NaturalCustomer naturalCustomer = setNaturalCustomerValues(
+                Integer.parseInt(request.getParameter("customerId")),
+                request.getParameter("firstName"),
+                request.getParameter("lastName"),
+                request.getParameter("fatherName"),
+                request.getParameter("dateOfBirth"),
+                request.getParameter("nationalCode"));
+
+        naturalCustomer = NaturalCustomerLogic.updateNaturalCustomer(naturalCustomer);
 
         request.setAttribute("naturalCustomer", naturalCustomer);
         getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-edit-result.jsp").forward(request, response);
@@ -72,4 +71,14 @@ public class UpdateNaturalCustomerServlet extends HttpServlet {
         NaturalCustomerLogic.deleteNaturalCustomerByID(customerId);
     }
 
+    private NaturalCustomer setNaturalCustomerValues(Integer id, String name, String lastName, String fatherName, String nationalCode, String dateOfBirth) {
+        NaturalCustomer naturalCustomer = new NaturalCustomer();
+        naturalCustomer.setCustomerId(id);
+        naturalCustomer.setFirstName(name);
+        naturalCustomer.setLastName(lastName);
+        naturalCustomer.setFatherName(fatherName);
+        naturalCustomer.setDateOfBirth(dateOfBirth);
+        naturalCustomer.setNationalCode(nationalCode);
+        return naturalCustomer;
+    }
 }

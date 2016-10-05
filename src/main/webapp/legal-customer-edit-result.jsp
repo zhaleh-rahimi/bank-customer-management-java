@@ -1,10 +1,11 @@
 <%@ page import="data_access.entity.NaturalCustomer" %>
+<%@ page import="data_access.entity.LegalCustomer" %>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java" %>
 <html lang="fa">
 <head>
     <meta charset="UTF-8">
     <link href=cssfile/styleSheet.css rel=stylesheet>
-    <title>ثبت مشتری حقیقی جدید</title>
+    <title>نتیجه به روز رسانی مشتری حقوقی </title>
 </head>
 <body>
 <div id="wrapper">
@@ -13,43 +14,35 @@
         <div class="layer">
             <div class="layer-in">
                 <br>
-                <p> نتیجه ثبت مشتری حقیقی:</p>
+                <p> نتیجه به روز رسانی مشتری حقوقی:</p>
+                <p style="color: chartreuse">موفقیت آمیز</p>
                 <br>
                 <table>
                     <tr>
-                        <th>نام</th>
-                        <th>نام خانوادگی</th>
-                        <th>نام پدر</th>
-                        <th>تاریخ تولد</th>
-                        <th>شماره ملی</th>
+                        <th>نام شرکت</th>
+                        <th>تاریخ ثبت</th>
+                        <th>شماره اقتصادی</th>
+
                         <th>شماره مشتری
                         </th>
                     </tr>
                     <tbody>
                     <%
-                        NaturalCustomer naturalCustomer = (NaturalCustomer) request.getAttribute("naturalCustomer");
+                    LegalCustomer legalCustomer = (LegalCustomer) request.getAttribute("legalCustomer");
                     %>
                     <tr>
 
                         <td>
-                            <%=naturalCustomer.getFirstName()%>
+                            <%=legalCustomer.getCompanyName()%>
                         </td>
                         <td>
-                            <%=naturalCustomer.getLastName()%>
+                            <%=legalCustomer.getRegistrationDate()%>
                         </td>
                         <td>
-                            <%=naturalCustomer.getFatherName()%>
+                            <%=legalCustomer.getEconomicCode()%>
                         </td>
                         <td>
-                            <%=naturalCustomer.getDateOfBirth() %>
-                        </td>
-                        <td>
-                            <%=naturalCustomer.getNationalCode() %>
-                        </td>
-                        <td>
-                            <div class="newId">
-                                <%=naturalCustomer.getCustomerId() %>
-                            </div>
+                            <%=legalCustomer.getCustomerId() %>
                         </td>
 
                     </tr>
@@ -60,5 +53,10 @@
         </div>
     </div>
 </div>
+</body>
+</html></title>
+</head>
+<body>
+
 </body>
 </html>

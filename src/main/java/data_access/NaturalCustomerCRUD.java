@@ -115,7 +115,7 @@ public class NaturalCustomerCRUD {
         return naturalCustomers;
     }
 
-    public static NaturalCustomer UpdateNaturalCustomerInTable(NaturalCustomer naturalCustomer)  {
+    public static NaturalCustomer updateNaturalCustomerInTable(NaturalCustomer naturalCustomer)  {
         String updateQueryStr = "UPDATE natural_customer SET "
                 + "first_name = ? , last_name = ?, father_name = ? , date_of_birth = ? , national_code = ? "
                 + " WHERE natural_customer_number = " + naturalCustomer.getCustomerId();
@@ -130,7 +130,7 @@ public class NaturalCustomerCRUD {
             preparedStatement.setString(5, naturalCustomer.getNationalCode());
             preparedStatement.executeUpdate();
             //show the result of update for test
-            System.out.println("Record is updated in natural_customer table!");
+            System.out.println("Record is updated in natural_customer table!"+naturalCustomer);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

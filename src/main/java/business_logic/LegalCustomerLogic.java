@@ -14,16 +14,25 @@ public class LegalCustomerLogic {
         LegalCustomerCRUD.insertIntoLegalCustomerTable(legalCustomer);
 
     }
+    public static void deleteLegalCustomerByID(int customerId) throws SQLException {
+        LegalCustomerCRUD.deleteFromNaturalCustomerTable(customerId);
+    }
 
     public static ArrayList<LegalCustomer> searchByCompanyName(String name) throws SQLException {
-        return  LegalCustomerCRUD.findCustomerByCompanyName(name);
+        return LegalCustomerCRUD.findCustomerByCompanyName(name);
     }
 
     public static ArrayList<LegalCustomer> searchByEconomicCode(String economicCode) throws SQLException {
-        return  LegalCustomerCRUD.findCustomerByEconomicCode(economicCode);
+        return LegalCustomerCRUD.findCustomerByEconomicCode(economicCode);
     }
 
     public static ArrayList<LegalCustomer> searchById(String id) throws SQLException {
-        return  LegalCustomerCRUD.findCustomerById(id);
+        return LegalCustomerCRUD.findCustomerById(id);
     }
+
+    public static LegalCustomer updateLegalCustomer(LegalCustomer legalCustomer) {
+        return LegalCustomerCRUD.updateLegalCustomerInTable(legalCustomer);
+    }
+
+
 }

@@ -103,6 +103,35 @@ public class LegalCustomerCRUD {
         return legalCustomers;
     }
 
+    public static LegalCustomer updateLegalCustomerInTable(LegalCustomer legalCustomer) {
+        String updateQueryStr = "UPDATE legal_customer SET "
+                + "name = ? , registration_date = ?, economic_code = ? "
+                + " WHERE natural_customer_number = " + legalCustomer.getCustomerId();
+
+        try {
+            //inserting values into natural_customer table
+            PreparedStatement preparedStatement = getDBConnection().prepareStatement(updateQueryStr);
+            preparedStatement.setString(1, legalCustomer.getCompanyName());
+            preparedStatement.setString(2, legalCustomer.getEconomicCode());
+            preparedStatement.setDate(3, Date.valueOf(legalCustomer.getRegistrationDate()));
+
+            preparedStatement.executeUpdate();
+            //show the result of update for test
+            System.out.println("Record is updated in legal_customer table!"+legalCustomer);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return legalCustomer;
+    }
+
+    public static void deleteFromNaturalCustomerTable(int customerId) throws SQLException {
+        String deleteQueryStr = "DELETE FROM legal_customer WHERE legal_customer_number = "+ customerId ;
+        PreparedStatement preparedStatement = getDBConnection().prepareStatement(deleteQueryStr);
+        preparedStatement.execute();
+        //show the result of delete for test
+        System.out.println("Record is deleted from legal_customer table!");
+    }
+
     /*public static void main(String[] argv) throws SQLException {
         LegalCustomer legalCustomer = new LegalCustomer();
         legalCustomer.setCompanyName("داتین");
