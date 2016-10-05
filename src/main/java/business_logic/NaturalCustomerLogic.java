@@ -28,6 +28,14 @@ public class NaturalCustomerLogic {
     }
 
     public static ArrayList<NaturalCustomer> searchById(String searchValueStr) throws SQLException {
-        return  NaturalCustomerCRUD.findCustomerByFId(searchValueStr);
+        return  NaturalCustomerCRUD.findCustomerById(searchValueStr);
+    }
+
+    public static void deleteNaturalCustomerByID(int customerId) throws SQLException {
+        NaturalCustomerCRUD.deleteFromNaturalCustomerTable(customerId);
+    }
+
+    public static void updateNaturalCustomer(NaturalCustomer naturalCustomer) {
+        NaturalCustomerCRUD.updateNaturalCustomerInTable(naturalCustomer);
     }
 }

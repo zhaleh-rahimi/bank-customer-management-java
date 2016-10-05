@@ -91,7 +91,7 @@ public class NaturalCustomerCRUD {
         return naturalCustomers;
     }
 
-    public static ArrayList<NaturalCustomer> findCustomerByFId(String id) throws SQLException {
+    public static ArrayList<NaturalCustomer> findCustomerById(String id) throws SQLException {
         String searchQueryStr = "SELECT * FROM natural_customer WHERE natural_customer_number = ?";
         PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
         statement.setInt(1, Integer.parseInt(id));
@@ -115,22 +115,54 @@ public class NaturalCustomerCRUD {
         return naturalCustomers;
     }
 
-    //Main Test
-   /* public static void main(String[] argv) throws SQLException {
-        NaturalCustomer naturalCustomer = new NaturalCustomer();
-        naturalCustomer.setFirstName("مهلا");
-        naturalCustomer.setLastName("محمدی");
-        naturalCustomer.setFatherName("پرهام");
-        naturalCustomer.setDateOfBirth("2010-2-2");
-        naturalCustomer.setNationalCode("557");
+    public static NaturalCustomer UpdateNaturalCustomerInTable(NaturalCustomer naturalCustomer)  {
+        String updateQueryStr = "UPDATE natural_customer SET "
+                + "first_name = ? , last_name = ?, father_name = ? , date_of_birth = ? , national_code = ? "
+                + " WHERE natural_customer_number = " + naturalCustomer.getCustomerId();
+
         try {
-            insertIntoNaturalCustomerTable(naturalCustomer);
+            //inserting values into natural_customer table
+            PreparedStatement preparedStatement = getDBConnection().prepareStatement(updateQueryStr);
+            preparedStatement.setString(1, naturalCustomer.getFirstName());
+            preparedStatement.setString(2, naturalCustomer.getLastName());
+            preparedStatement.setString(3, naturalCustomer.getFatherName());
+            preparedStatement.setDate(4, Date.valueOf(naturalCustomer.getDateOfBirth()));
+            preparedStatement.setString(5, naturalCustomer.getNationalCode());
+            preparedStatement.executeUpdate();
+            //show the result of update for test
+            System.out.println("Record is updated in natural_customer table!");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return naturalCustomer;
+    }
 
-        findCustomerByFId("176");
+    public static void deleteFromNaturalCustomerTable(int customerId) throws SQLException {
+        String deleteQueryStr = "DELETE FROM natural_customer WHERE natural_customer_number = "+ customerId ;
+        PreparedStatement preparedStatement = getDBConnection().prepareStatement(deleteQueryStr);
+        preparedStatement.execute();
+        //show the result of delete for test
+        System.out.println("Record is deleted from natural_customer table!");
+    }
+
+
+
+    //Main Test
+    /*public static void main(String[] argv) throws SQLException {
+        NaturalCustomer naturalCustomer = new NaturalCustomer();
+        *//*naturalCustomer.setFirstName("مهلا");
+        naturalCustomer.setLastName("محمدی");
+        naturalCustomer.setFatherName("حمید");
+        naturalCustomer.setDateOfBirth("2010-2-2");
+        naturalCustomer.setNationalCode("557");*//*
+        //naturalCustomer.setCustomerId(179);
+        *//*try {
+            insertIntoNaturalCustomerTable(naturalCustomer);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }*//*
+
+       deleteFromNaturalCustomerTable(179);
     }*/
-
 
 }

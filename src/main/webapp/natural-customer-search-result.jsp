@@ -62,10 +62,10 @@
                             <%=naturalCustomer.getCustomerId()%>
                         </td>
 
-                        <td><a href=""
+                        <td><a href="UpdateNaturalCustomer?action=delete&id=<%=naturalCustomer.getCustomerId() %>"
                                class=form id="btn1">حذف</a>
 
-                            <a href="../natural-customer-edit.html"
+                            <a href="UpdateNaturalCustomer?action=edit&id=<%=naturalCustomer.getCustomerId() %>"
                                class=form id="btn2">ویرایش</a>
                         </td>
 
