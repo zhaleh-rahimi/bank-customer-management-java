@@ -26,9 +26,7 @@ body {
     direction: rtl;
 }
 
-.hr {
-    display: none;
-}
+
 
 .cleaner {
     clear: both;

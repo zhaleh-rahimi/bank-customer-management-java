@@ -10,7 +10,6 @@
 </head>
 <body>
 <div id="wrapper">
-    <hr class="hrshow">
     <div class="content">
         <div class="layer">
             <div class="layer-in">

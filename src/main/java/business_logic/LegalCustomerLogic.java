@@ -71,9 +71,7 @@ public class LegalCustomerLogic {
 
     public static LegalCustomer updateLegalCustomer(LegalCustomer legalCustomer) throws SQLException {
         int idOfNew = legalCustomer.getCustomerId();
-        int idOfAvailable = LegalCustomerCRUD.findCustomerByEconomicCode(legalCustomer.getEconomicCode()).get(0).getCustomerId();
-        int sizeOfAvailableCustomers = LegalCustomerCRUD.findCustomerByEconomicCode(legalCustomer.getEconomicCode()).size();
-        if (sizeOfAvailableCustomers == 0 || (idOfNew==idOfAvailable)) {
+        if (LegalCustomerCRUD.noDuplicateNumberInTable(legalCustomer.getEconomicCode(),idOfNew)) {
             return LegalCustomerCRUD.updateLegalCustomerInTable(legalCustomer);
         } else {
             throw new DuplicateInformationException("duplicate number");

@@ -59,6 +59,20 @@ public class LegalCustomerCRUD {
         return isDuplicate;
     }
 
+    public static Boolean noDuplicateNumberInTable(String economicCode, int idOfNew) throws SQLException {
+        String searchQueryStr = "SELECT * FROM legal_customer WHERE economic_Code = ?";
+        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+        statement.setString(1, economicCode);
+        ResultSet result = statement.executeQuery();
+
+        LegalCustomer legalCustomer = new LegalCustomer();
+        if (result.next()) {
+            legalCustomer.setCustomerId(result.getInt("legal_customer_number"));
+            return (legalCustomer.getCustomerId().equals(idOfNew));
+        } else {
+            return true;
+        }
+    }
     private static ArrayList<LegalCustomer> setSearchResult(ResultSet resultSet) throws SQLException {
         ArrayList<LegalCustomer> legalCustomers = new ArrayList<LegalCustomer>();
         while (resultSet.next()) {

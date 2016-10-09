@@ -8,7 +8,6 @@
 </head>
 <body>
 <div id="wrapper">
-    <hr class="hr">
     <div class="content">
         <div class="layer">
             <div class="layer-in">

@@ -81,10 +81,8 @@ public class NaturalCustomerLogic {
     }
 
     public static NaturalCustomer updateNaturalCustomer(NaturalCustomer naturalCustomer) throws SQLException {
-        int idOfNew = naturalCustomer.getCustomerId();
-        int idOfAvailable = NaturalCustomerCRUD.findCustomerByNationalCode(naturalCustomer.getNationalCode()).get(0).getCustomerId();
-        int sizeOfCustomersAvailable = NaturalCustomerCRUD.findCustomerByNationalCode(naturalCustomer.getNationalCode()).size();
-        if (sizeOfCustomersAvailable == 0 || (idOfNew == idOfAvailable)) {
+        Integer idOfNew = naturalCustomer.getCustomerId();
+        if (NaturalCustomerCRUD.noDuplicateNumberInTable(naturalCustomer.getNationalCode(),idOfNew)) {
             return NaturalCustomerCRUD.updateNaturalCustomerInTable(naturalCustomer);
         } else {
             throw new DuplicateInformationException("duplicate");

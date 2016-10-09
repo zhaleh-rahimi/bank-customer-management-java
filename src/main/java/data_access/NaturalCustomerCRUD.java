@@ -115,7 +115,7 @@ public class NaturalCustomerCRUD {
         return naturalCustomers;
     }
 
-    public static NaturalCustomer updateNaturalCustomerInTable(NaturalCustomer naturalCustomer)  {
+    public static NaturalCustomer updateNaturalCustomerInTable(NaturalCustomer naturalCustomer) {
         String updateQueryStr = "UPDATE natural_customer SET "
                 + "first_name = ? , last_name = ?, father_name = ? , date_of_birth = ? , national_code = ? "
                 + " WHERE natural_customer_number = " + naturalCustomer.getCustomerId();
@@ -130,7 +130,7 @@ public class NaturalCustomerCRUD {
             preparedStatement.setString(5, naturalCustomer.getNationalCode());
             preparedStatement.executeUpdate();
             //show the result of update for test
-            System.out.println("Record is updated in natural_customer table!"+naturalCustomer);
+            System.out.println("Record is updated in natural_customer table!" + naturalCustomer);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -138,20 +138,36 @@ public class NaturalCustomerCRUD {
     }
 
     public static void deleteFromNaturalCustomerTable(int customerId) throws SQLException {
-        String deleteQueryStr = "DELETE FROM natural_customer WHERE natural_customer_number = "+ customerId ;
+        String deleteQueryStr = "DELETE FROM natural_customer WHERE natural_customer_number = " + customerId;
         PreparedStatement preparedStatement = getDBConnection().prepareStatement(deleteQueryStr);
         preparedStatement.execute();
         //show the result of delete for test
         System.out.println("Record is deleted from natural_customer table!");
     }
 
-    public static Boolean duplicatedNumber(String economicCode) throws SQLException {
+    public static Boolean duplicatedNumber(String nationalCode) throws SQLException {
         String searchQueryStr = "SELECT * FROM natural_customer WHERE national_code = ?";
         PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
-        statement.setString(1, economicCode);
+        statement.setString(1, nationalCode);
         ResultSet result = statement.executeQuery();
         return result.next();
     }
+
+    public static Boolean noDuplicateNumberInTable(String nationalCode, int idOfNew) throws SQLException {
+        String searchQueryStr = "SELECT * FROM natural_customer WHERE national_code = ?";
+        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+        statement.setString(1, nationalCode);
+        ResultSet result = statement.executeQuery();
+
+        NaturalCustomer naturalCustomer = new NaturalCustomer();
+        if (result.next()) {
+            naturalCustomer.setCustomerId(result.getInt("natural_customer_number"));
+            return (naturalCustomer.getCustomerId().equals(idOfNew));
+        } else {
+            return true;
+        }
+    }
+
 
     //Main Test
     /*public static void main(String[] argv) throws SQLException {
