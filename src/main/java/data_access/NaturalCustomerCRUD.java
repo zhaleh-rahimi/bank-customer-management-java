@@ -145,7 +145,13 @@ public class NaturalCustomerCRUD {
         System.out.println("Record is deleted from natural_customer table!");
     }
 
-
+    public static Boolean duplicatedNumber(String economicCode) throws SQLException {
+        String searchQueryStr = "SELECT * FROM natural_customer WHERE national_code = ?";
+        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+        statement.setString(1, economicCode);
+        ResultSet result = statement.executeQuery();
+        return result.next();
+    }
 
     //Main Test
     /*public static void main(String[] argv) throws SQLException {

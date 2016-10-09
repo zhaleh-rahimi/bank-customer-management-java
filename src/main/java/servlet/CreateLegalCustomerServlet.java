@@ -3,11 +3,9 @@ package servlet;
 import business_logic.LegalCustomerLogic;
 import business_logic.exceptions.DuplicateInformationException;
 import business_logic.exceptions.FieldRequiredException;
-import data_access.LegalCustomerCRUD;
 import data_access.entity.LegalCustomer;
-import util.ErrorMessage;
+import util.Message;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +24,7 @@ public class CreateLegalCustomerServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         LegalCustomer legalCustomer = new LegalCustomer();
-        ErrorMessage errorMessage = new ErrorMessage();
+        Message errorMessage = new Message();
         try {
 
             legalCustomer.setCompanyName(request.getParameter("companyName"));

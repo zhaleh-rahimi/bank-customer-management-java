@@ -1,5 +1,7 @@
 package business_logic;
 
+import business_logic.exceptions.DataNotFoundException;
+import business_logic.exceptions.DuplicateInformationException;
 import business_logic.exceptions.FieldRequiredException;
 import data_access.NaturalCustomerCRUD;
 import data_access.entity.NaturalCustomer;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * Created by dotinschool3 on 10/3/2016.
  */
 public class NaturalCustomerLogic {
-    public static void validate(NaturalCustomer naturalCustomer){
+    public static boolean validate(NaturalCustomer naturalCustomer) {
         if (naturalCustomer.getFirstName() == null || naturalCustomer.getFirstName().equals("")) {
             throw new FieldRequiredException("وارد کردن نام الزامی است.");
         }
@@ -27,33 +29,65 @@ public class NaturalCustomerLogic {
         if (naturalCustomer.getNationalCode() == null || naturalCustomer.getNationalCode().equals("")) {
             throw new FieldRequiredException("وارد کردن کد ملی الزامی است.");
         }
+
+        return true;
     }
 
     public static void insertNaturalCustomer(NaturalCustomer naturalCustomer) throws SQLException {
-        NaturalCustomerCRUD.insertIntoNaturalCustomerTable(naturalCustomer);
+        if (validate(naturalCustomer)) {
+            if (!(NaturalCustomerCRUD.duplicatedNumber(naturalCustomer.getNationalCode()))) {
+                NaturalCustomerCRUD.insertIntoNaturalCustomerTable(naturalCustomer);
+            } else {
+                throw new DuplicateInformationException("duplicate number");
+            }
+        }
     }
 
     public static ArrayList<NaturalCustomer> searchByFirstName(String searchValueStr) throws SQLException {
-        return  NaturalCustomerCRUD.findCustomerByFirstName(searchValueStr);
+
+        try {
+            return NaturalCustomerCRUD.findCustomerByFirstName(searchValueStr);
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("no data");
+        }
     }
 
     public static ArrayList<NaturalCustomer> searchByLastName(String searchValueStr) throws SQLException {
-        return  NaturalCustomerCRUD.findCustomerByLastName(searchValueStr);
+        try {
+            return NaturalCustomerCRUD.findCustomerByLastName(searchValueStr);
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("no data");
+        }
     }
 
     public static ArrayList<NaturalCustomer> searchByNationalCode(String searchValueStr) throws SQLException {
-        return  NaturalCustomerCRUD.findCustomerByNationalCode(searchValueStr);
+        try {
+            return NaturalCustomerCRUD.findCustomerByNationalCode(searchValueStr);
+        } catch (DataNotFoundException e) {
+            throw new DataNotFoundException("no data");
+        }
     }
 
     public static ArrayList<NaturalCustomer> searchById(String searchValueStr) throws SQLException {
-        return  NaturalCustomerCRUD.findCustomerById(searchValueStr);
+        try {
+            return NaturalCustomerCRUD.findCustomerById(searchValueStr);
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("no data");
+        }
     }
 
     public static void deleteNaturalCustomerByID(int customerId) throws SQLException {
         NaturalCustomerCRUD.deleteFromNaturalCustomerTable(customerId);
     }
 
-    public static NaturalCustomer updateNaturalCustomer(NaturalCustomer naturalCustomer) {
-        return NaturalCustomerCRUD.updateNaturalCustomerInTable(naturalCustomer);
+    public static NaturalCustomer updateNaturalCustomer(NaturalCustomer naturalCustomer) throws SQLException {
+        int idOfNew = naturalCustomer.getCustomerId();
+        int idOfAvailable = NaturalCustomerCRUD.findCustomerByNationalCode(naturalCustomer.getNationalCode()).get(0).getCustomerId();
+        int sizeOfCustomersAvailable = NaturalCustomerCRUD.findCustomerByNationalCode(naturalCustomer.getNationalCode()).size();
+        if (sizeOfCustomersAvailable == 0 || (idOfNew == idOfAvailable)) {
+            return NaturalCustomerCRUD.updateNaturalCustomerInTable(naturalCustomer);
+        } else {
+            throw new DuplicateInformationException("duplicate");
+        }
     }
 }

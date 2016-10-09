@@ -1,7 +1,9 @@
 package servlet;
 
 import business_logic.LegalCustomerLogic;
+import business_logic.exceptions.DuplicateInformationException;
 import data_access.entity.LegalCustomer;
+import util.Message;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,26 +33,43 @@ public class UpdateLegalCustomerServlet extends HttpServlet {
             }
         }
         if ("edit-legal-customer".equalsIgnoreCase(action)) {
-            editLegalCustomer(request, response);
+            try {
+                editLegalCustomer(request, response);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void editLegalCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void editLegalCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         LegalCustomer legalCustomer = setLegalCustomerValues(
                 Integer.parseInt(request.getParameter("customerId")),
                 request.getParameter("companyName"),
                 request.getParameter("registrationDate"),
                 request.getParameter("economicCode")
         );
-        legalCustomer = LegalCustomerLogic.updateLegalCustomer(legalCustomer);
-        request.setAttribute("legalCustomer",legalCustomer);
-        getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-edit-result.jsp").forward(request,response);
+        try {
+            legalCustomer = LegalCustomerLogic.updateLegalCustomer(legalCustomer);
+            request.setAttribute("legalCustomer", legalCustomer);
+            getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-edit-result.jsp").forward(request, response);
+        }catch (DuplicateInformationException e){
+            Message errorMessage=new Message();
+            errorMessage.info="شماره اقتصادی وارد شده تکراری است.";
+            errorMessage.header="عملیات ناموفق";
+            request.setAttribute("error", errorMessage);
+            getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-edit-result.jsp").forward(request, response);
+        }
 
     }
 
-    private void deleteLegalCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+    private void deleteLegalCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int customerId = Integer.parseInt(request.getParameter("id"));
         LegalCustomerLogic.deleteLegalCustomerByID(customerId);
+        Message message=new Message();
+        message.info = "حذف انجام شد ";
+        message.header = "عملیات موفق";
+        request.setAttribute("error", message);
+        getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     private void sendDataToEditPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

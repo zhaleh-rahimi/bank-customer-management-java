@@ -1,7 +1,9 @@
 package servlet;
 
 import business_logic.NaturalCustomerLogic;
+import business_logic.exceptions.DuplicateInformationException;
 import data_access.entity.NaturalCustomer;
+import util.Message;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -59,16 +61,31 @@ public class UpdateNaturalCustomerServlet extends HttpServlet {
                 request.getParameter("dateOfBirth"),
                 request.getParameter("nationalCode"));
 
-        naturalCustomer = NaturalCustomerLogic.updateNaturalCustomer(naturalCustomer);
+        try {
+            naturalCustomer = NaturalCustomerLogic.updateNaturalCustomer(naturalCustomer);
 
-        request.setAttribute("naturalCustomer", naturalCustomer);
-        getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-edit-result.jsp").forward(request, response);
+            request.setAttribute("naturalCustomer", naturalCustomer);
+            getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-edit-result.jsp").forward(request, response);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }catch (DuplicateInformationException e){
+            Message errorMessage=new Message();
+            errorMessage.info = "شماره ملی وارد شده تکراری می باشد.";
+            errorMessage.header = "عملیات ناموفق";
+            request.setAttribute("error", errorMessage);
+            getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-edit-result.jsp").forward(request, response);
+        }
 
     }
 
-    private void deleteNaturalCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+    private void deleteNaturalCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int customerId = Integer.parseInt(request.getParameter("id"));
         NaturalCustomerLogic.deleteNaturalCustomerByID(customerId);
+        Message message=new Message();
+        message.info = "حذف انجام شد ";
+        message.header = "عملیات موفق";
+        request.setAttribute("error", message);
+        getServletConfig().getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
     }
 
     private NaturalCustomer setNaturalCustomerValues(Integer id, String name, String lastName, String fatherName, String dateOfBirth, String nationalCode) {

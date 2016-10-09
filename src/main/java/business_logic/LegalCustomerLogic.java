@@ -1,5 +1,7 @@
 package business_logic;
 
+import business_logic.exceptions.DataNotFoundException;
+import business_logic.exceptions.DuplicateInformationException;
 import business_logic.exceptions.FieldRequiredException;
 import data_access.LegalCustomerCRUD;
 import data_access.entity.LegalCustomer;
@@ -22,34 +24,60 @@ public class LegalCustomerLogic {
         if (legalCustomer.getRegistrationDate() == null || legalCustomer.getRegistrationDate().equals("")) {
             throw new FieldRequiredException("وارد کردن تاریخ ثبت الزامی است.");
         }
+
         return true;
 
     }
 
     public static void create(LegalCustomer legalCustomer) throws SQLException {
-        if(validated(legalCustomer))
-        LegalCustomerCRUD.insertIntoLegalCustomerTable(legalCustomer);
-
+        if (validated(legalCustomer)) {
+            if (!(LegalCustomerCRUD.duplicatedNumber(legalCustomer.getEconomicCode()))) {
+                LegalCustomerCRUD.insertIntoLegalCustomerTable(legalCustomer);
+            } else {
+                throw new DuplicateInformationException("duplicate number");
+            }
+        }
     }
+
 
     public static void deleteLegalCustomerByID(int customerId) throws SQLException {
         LegalCustomerCRUD.deleteFromNaturalCustomerTable(customerId);
     }
 
     public static ArrayList<LegalCustomer> searchByCompanyName(String name) throws SQLException {
-        return LegalCustomerCRUD.findCustomerByCompanyName(name);
+        try {
+            return LegalCustomerCRUD.findCustomerByCompanyName(name);
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("does not exist");
+        }
     }
 
     public static ArrayList<LegalCustomer> searchByEconomicCode(String economicCode) throws SQLException {
-        return LegalCustomerCRUD.findCustomerByEconomicCode(economicCode);
+
+        try {
+            return LegalCustomerCRUD.findCustomerByEconomicCode(economicCode);
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("doesn exist");
+        }
     }
 
     public static ArrayList<LegalCustomer> searchById(String id) throws SQLException {
-        return LegalCustomerCRUD.findCustomerById(id);
+        try {
+            return LegalCustomerCRUD.findCustomerById(id);
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("doesn exist");
+        }
     }
 
-    public static LegalCustomer updateLegalCustomer(LegalCustomer legalCustomer) {
+    public static LegalCustomer updateLegalCustomer(LegalCustomer legalCustomer) throws SQLException {
+        int idOfNew = legalCustomer.getCustomerId();
+        int idOfAvailable = LegalCustomerCRUD.findCustomerByEconomicCode(legalCustomer.getEconomicCode()).get(0).getCustomerId();
+        int sizeOfAvailableCustomers = LegalCustomerCRUD.findCustomerByEconomicCode(legalCustomer.getEconomicCode()).size();
+        if (sizeOfAvailableCustomers == 0 || (idOfNew==idOfAvailable)) {
             return LegalCustomerCRUD.updateLegalCustomerInTable(legalCustomer);
+        } else {
+            throw new DuplicateInformationException("duplicate number");
+        }
     }
 
 

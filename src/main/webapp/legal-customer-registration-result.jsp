@@ -1,5 +1,5 @@
 <%@ page import="data_access.entity.LegalCustomer" %>
-<%@ page import="util.ErrorMessage" %>
+<%@ page import="util.Message" %>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="fa">
@@ -53,7 +53,7 @@
                     </table>
 
                     <% } else {
-                        ErrorMessage errorMessage = (ErrorMessage) request.getAttribute("error"); %>
+                        Message errorMessage = (Message) request.getAttribute("error"); %>
                     <h2 style="color: #b80000 "><%=errorMessage.getHeader()%>
                     </h2>
                     <h3 style="color: #b80000 "><%=errorMessage.getInfo()%>

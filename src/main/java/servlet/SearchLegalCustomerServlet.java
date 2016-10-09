@@ -3,7 +3,6 @@ package servlet;
 import business_logic.LegalCustomerLogic;
 import business_logic.exceptions.DataNotFoundException;
 import data_access.entity.LegalCustomer;
-import util.ErrorMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

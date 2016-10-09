@@ -1,6 +1,7 @@
 package servlet;
 
 import business_logic.NaturalCustomerLogic;
+import business_logic.exceptions.DataNotFoundException;
 import data_access.entity.NaturalCustomer;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * Created by dotinschool3 on 10/3/2016.
@@ -42,14 +44,17 @@ public class SearchNaturalCustomerServlet extends HttpServlet {
             else if(searchFilter.equals("customerId")){
                 naturalCustomers = NaturalCustomerLogic.searchById(searchValueStr);
             }
+            System.out.println(naturalCustomers);
+            request.setAttribute("naturalCustomers", naturalCustomers);
+            getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-search-result.jsp").forward(request, response);
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }catch (DataNotFoundException e){
+            e.getMessage();
         }
 
-        System.out.println(naturalCustomers);
-        request.setAttribute("naturalCustomers", naturalCustomers);
-        getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-search-result.jsp").forward(request, response);
+
     }
 
 

@@ -1,7 +1,10 @@
 package servlet;
 
 import business_logic.NaturalCustomerLogic;
+import business_logic.exceptions.DuplicateInformationException;
+import business_logic.exceptions.FieldRequiredException;
 import data_access.entity.NaturalCustomer;
+import util.Message;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,22 +27,32 @@ public class CreateNaturalCustomerServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         NaturalCustomer naturalCustomer = new NaturalCustomer();
-
-        naturalCustomer.setFirstName(request.getParameter("firstName"));
-        naturalCustomer.setLastName(request.getParameter("lastName"));
-        naturalCustomer.setFatherName(request.getParameter("fatherName"));
-        naturalCustomer.setDateOfBirth(request.getParameter("dateOfBirth"));
-        naturalCustomer.setNationalCode(request.getParameter("nationalCode"));
-        System.out.println(naturalCustomer.toString());
-
-        //NaturalCustomerLogic.create(naturalCustomer);
+        Message errorMessage = new Message();
         try {
-              NaturalCustomerLogic.insertNaturalCustomer(naturalCustomer);
+            naturalCustomer.setFirstName(request.getParameter("firstName"));
+            naturalCustomer.setLastName(request.getParameter("lastName"));
+            naturalCustomer.setFatherName(request.getParameter("fatherName"));
+            naturalCustomer.setDateOfBirth(request.getParameter("dateOfBirth"));
+            naturalCustomer.setNationalCode(request.getParameter("nationalCode"));
+            System.out.println(naturalCustomer.toString());
+
+            NaturalCustomerLogic.insertNaturalCustomer(naturalCustomer);
+
+            request.setAttribute("naturalCustomer", naturalCustomer);
+            getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-registration-result.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (DuplicateInformationException e) {
+            errorMessage.info = "شماره ملی وارد شده تکراری می باشد.";
+            errorMessage.header = "عملیات ناموفق";
+            request.setAttribute("error", errorMessage);
+            getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-registration-result.jsp").forward(request, response);
+        } catch (FieldRequiredException e) {
+            errorMessage.info = "ورود همه فیلدها الزامی است.";
+            errorMessage.header = "عملیات ناموفق";
+            request.setAttribute("error", errorMessage);
+            getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-registration-result.jsp").forward(request, response);
         }
-        request.setAttribute("naturalCustomer", naturalCustomer);
-        getServletConfig().getServletContext().getRequestDispatcher("/natural-customer-registration-result.jsp").forward(request, response);
 
 
     }
