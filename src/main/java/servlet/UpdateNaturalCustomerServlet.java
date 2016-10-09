@@ -71,7 +71,7 @@ public class UpdateNaturalCustomerServlet extends HttpServlet {
         NaturalCustomerLogic.deleteNaturalCustomerByID(customerId);
     }
 
-    private NaturalCustomer setNaturalCustomerValues(Integer id, String name, String lastName, String fatherName, String nationalCode, String dateOfBirth) {
+    private NaturalCustomer setNaturalCustomerValues(Integer id, String name, String lastName, String fatherName, String dateOfBirth, String nationalCode) {
         NaturalCustomer naturalCustomer = new NaturalCustomer();
         naturalCustomer.setCustomerId(id);
         naturalCustomer.setFirstName(name);

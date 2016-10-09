@@ -1,5 +1,8 @@
 package data_access;
 
+import business_logic.exceptions.DataNotFoundException;
+import business_logic.exceptions.DuplicateInformationException;
+import business_logic.exceptions.FieldRequiredException;
 import data_access.entity.LegalCustomer;
 
 import java.sql.*;
@@ -11,7 +14,7 @@ import static data_access.DataBaseConnection.getDBConnection;
  * Created by DOTIN SCHOOL 4 on 9/28/2016.
  */
 public class LegalCustomerCRUD {
-    private static ArrayList<LegalCustomer> legalCustomers=null;
+    private static ArrayList<LegalCustomer> legalCustomers = null;
 
     public static void insertIntoLegalCustomerTable(LegalCustomer legalCustomer) throws SQLException {
 
@@ -24,6 +27,7 @@ public class LegalCustomerCRUD {
                 + "(?,?,?,?)";
 
         try {
+            if (notDuplicated(legalCustomer.getEconomicCode())) {
             dbConnection = getDBConnection();
             preparedStatement = dbConnection.prepareStatement(customerInsertQueryStr, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.executeUpdate();
@@ -36,21 +40,31 @@ public class LegalCustomerCRUD {
             preparedStatement.setInt(1, auto_id);
             preparedStatement.setString(2, legalCustomer.getCompanyName());
             preparedStatement.setString(3, legalCustomer.getRegistrationDate());
-            preparedStatement.setString(4, legalCustomer.getEconomicCode());
+                preparedStatement.setString(4, legalCustomer.getEconomicCode());
 
             preparedStatement.executeUpdate();
             System.out.println("Record is inserted into customer_management_db table!");
+            } else {
+                throw new DuplicateInformationException("کد اقتصادی وارد شده تکراری است");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
         }
     }
+
+    private static Boolean notDuplicated(String economicCode) throws SQLException {
+        String searchQueryStr = "SELECT legal_customer_number FROM legal_customer WHERE economic_code = ?";
+        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+        statement.setString(1, economicCode);
+        ResultSet id = statement.executeQuery();
+        if (id != null) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     private static ArrayList<LegalCustomer> setSearchResult(ResultSet resultSet) throws SQLException {
         ArrayList<LegalCustomer> legalCustomers = new ArrayList<LegalCustomer>();
         while (resultSet.next()) {
@@ -68,55 +82,67 @@ public class LegalCustomerCRUD {
     }
 
     public static ArrayList<LegalCustomer> findCustomerByCompanyName(String name) throws SQLException {
-        String searchQueryStr = "SELECT * FROM legal_customer WHERE name = ?";
-        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
-        statement.setString(1, name);
-        ResultSet resultSet = statement.executeQuery();
-        legalCustomers = setSearchResult(resultSet);
-        resultSet.close();
-        //Display values for test
-        System.out.println(legalCustomers);
-        return legalCustomers;
+        try {
+            String searchQueryStr = "SELECT * FROM legal_customer WHERE name = ?";
+            PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            legalCustomers = setSearchResult(resultSet);
+            resultSet.close();
+            //Display values for test
+            System.out.println(legalCustomers);
+            return legalCustomers;
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("مشتری با این نام پیدا نشد!");
+        }
     }
 
     public static ArrayList<LegalCustomer> findCustomerByEconomicCode(String economicCode) throws SQLException {
-        String searchQueryStr = "SELECT * FROM legal_customer WHERE economic_code = ?";
-        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
-        statement.setString(1, economicCode);
-        ResultSet resultSet = statement.executeQuery();
-        legalCustomers = setSearchResult(resultSet);
-        resultSet.close();
-        //Display values for test
-        System.out.println(legalCustomers);
-        return legalCustomers;
+        try {
+            String searchQueryStr = "SELECT * FROM legal_customer WHERE economic_code = ?";
+            PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+            statement.setString(1, economicCode);
+            ResultSet resultSet = statement.executeQuery();
+            legalCustomers = setSearchResult(resultSet);
+            resultSet.close();
+            //Display values for test
+            System.out.println(legalCustomers);
+            return legalCustomers;
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("مشتری با این شماره اقتصادی پیدا نشد!");
+        }
     }
 
     public static ArrayList<LegalCustomer> findCustomerById(String id) throws SQLException {
-        String searchQueryStr = "SELECT * FROM legal_customer WHERE legal_customer_number= ?";
-        PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
-        statement.setInt(1, Integer.parseInt(id));
-        ResultSet resultSet = statement.executeQuery();
-        legalCustomers = setSearchResult(resultSet);
-        resultSet.close();
-        //Display values for test
-        System.out.println(legalCustomers);
-        return legalCustomers;
+        try {
+            String searchQueryStr = "SELECT * FROM legal_customer WHERE legal_customer_number= ?";
+            PreparedStatement statement = getDBConnection().prepareStatement(searchQueryStr);
+            statement.setInt(1, Integer.parseInt(id));
+            ResultSet resultSet = statement.executeQuery();
+            legalCustomers = setSearchResult(resultSet);
+            resultSet.close();
+            //Display values for test
+            System.out.println(legalCustomers);
+            return legalCustomers;
+        } catch (RuntimeException e) {
+            throw new DataNotFoundException("مشتری با این شماره پیدا نشد!");
+        }
     }
 
     public static LegalCustomer updateLegalCustomerInTable(LegalCustomer legalCustomer) {
         String updateQueryStr = "UPDATE legal_customer SET "
                 + "name = ? , registration_date = ?, economic_code = ? "
-                + " WHERE natural_customer_number = " + legalCustomer.getCustomerId();
+                + " WHERE legal_customer_number = " + legalCustomer.getCustomerId();
 
         try {
             //inserting values into legal_customer table
             PreparedStatement preparedStatement = getDBConnection().prepareStatement(updateQueryStr);
             preparedStatement.setString(1, legalCustomer.getCompanyName());
-            preparedStatement.setDate(2, Date.valueOf(legalCustomer.getRegistrationDate()));
+            preparedStatement.setString(2, legalCustomer.getRegistrationDate());
             preparedStatement.setString(3, legalCustomer.getEconomicCode());
             preparedStatement.executeUpdate();
             //show the result of update for test
-            System.out.println("Record is updated in legal_customer table!"+legalCustomer);
+            System.out.println("Record is updated in legal_customer table!" + legalCustomer);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -124,7 +150,7 @@ public class LegalCustomerCRUD {
     }
 
     public static void deleteFromNaturalCustomerTable(int customerId) throws SQLException {
-        String deleteQueryStr = "DELETE FROM legal_customer WHERE legal_customer_number = "+ customerId ;
+        String deleteQueryStr = "DELETE FROM legal_customer WHERE legal_customer_number = " + customerId;
         PreparedStatement preparedStatement = getDBConnection().prepareStatement(deleteQueryStr);
         preparedStatement.execute();
         //show the result of delete for test

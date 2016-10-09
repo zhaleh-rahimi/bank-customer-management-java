@@ -33,7 +33,7 @@
                         </tr>
                         <tr>
                             <td> تاریخ ثبت</td>
-                            <td><input type="DATE" name="lastName" value="<%=legalCustomer.getRegistrationDate()%>"></td>
+                            <td><input type="DATE" name="registrationDate" value="<%=legalCustomer.getRegistrationDate()%>"></td>
                         </tr>
                         <tr>
                             <td>شماره اقتصادی</td>

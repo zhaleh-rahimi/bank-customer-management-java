@@ -41,7 +41,7 @@
                         </tr>
                         <tr>
                             <td> تاریخ تولد</td>
-                            <td><input type='DATE' name='dateOfBirth' value="<%=naturalCustomer.getDateOfBirth()%>">
+                            <td><input type="text" name='dateOfBirth' value="<%=naturalCustomer.getDateOfBirth()%>">
                             </td>
                         </tr>
                         <tr>

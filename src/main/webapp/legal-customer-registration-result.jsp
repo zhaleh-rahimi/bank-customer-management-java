@@ -1,4 +1,5 @@
 <%@ page import="data_access.entity.LegalCustomer" %>
+<%@ page import="util.ErrorMessage" %>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="fa">
@@ -14,9 +15,14 @@
         <div class="layer">
             <div class="layer-in">
                 <br>
-                <p>  نتیجه ثبت مشتری حقوقی :</p>
+                <p> نتیجه ثبت مشتری حقوقی :</p>
                 <br>
                 <div class="result-table">
+
+                    <%
+                        LegalCustomer legalCustomer = (LegalCustomer) request.getAttribute("legalCustomer");
+                        if (legalCustomer != null) {
+                    %>
                     <table>
                         <tr>
                             <th>نام شرکت</th>
@@ -26,9 +32,6 @@
                             </th>
                         </tr>
                         <tbody>
-                        <%
-                            LegalCustomer legalCustomer = (LegalCustomer) request.getAttribute("legalCustomer");
-                        %>
                         <tr>
 
                             <td>
@@ -42,12 +45,21 @@
                             </td>
                             <td>
                                 <div class="newId">
-                                <%=legalCustomer.getCustomerId() %>
+                                    <%=legalCustomer.getCustomerId() %>
                                 </div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+
+                    <% } else {
+                        ErrorMessage errorMessage = (ErrorMessage) request.getAttribute("error"); %>
+                    <h2 style="color: #b80000 "><%=errorMessage.getHeader()%>
+                    </h2>
+                    <h3 style="color: #b80000 "><%=errorMessage.getInfo()%>
+                    </h3>
+
+                    <%}%>
                 </div>
                 <a href="../customer-type-selection.html" class=form>بازگشت به خانه</a>
             </div>

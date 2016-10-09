@@ -39,7 +39,7 @@ public class NaturalCustomerCRUD {
             preparedStatement.setString(2, naturalCustomer.getFirstName());
             preparedStatement.setString(3, naturalCustomer.getLastName());
             preparedStatement.setString(4, naturalCustomer.getFatherName());
-            preparedStatement.setDate(5, Date.valueOf(naturalCustomer.getDateOfBirth()));
+            preparedStatement.setString(5, naturalCustomer.getDateOfBirth());
             preparedStatement.setString(6, naturalCustomer.getNationalCode());
             preparedStatement.executeUpdate();
             //show the result of inserting for test
@@ -126,7 +126,7 @@ public class NaturalCustomerCRUD {
             preparedStatement.setString(1, naturalCustomer.getFirstName());
             preparedStatement.setString(2, naturalCustomer.getLastName());
             preparedStatement.setString(3, naturalCustomer.getFatherName());
-            preparedStatement.setDate(4, Date.valueOf(naturalCustomer.getDateOfBirth()));
+            preparedStatement.setString(4, naturalCustomer.getDateOfBirth());
             preparedStatement.setString(5, naturalCustomer.getNationalCode());
             preparedStatement.executeUpdate();
             //show the result of update for test

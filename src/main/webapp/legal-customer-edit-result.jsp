@@ -1,4 +1,3 @@
-<%@ page import="data_access.entity.NaturalCustomer" %>
 <%@ page import="data_access.entity.LegalCustomer" %>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" language="java" %>
 <html lang="fa">
@@ -22,7 +21,6 @@
                         <th>نام شرکت</th>
                         <th>تاریخ ثبت</th>
                         <th>شماره اقتصادی</th>
-
                         <th>شماره مشتری
                         </th>
                     </tr>

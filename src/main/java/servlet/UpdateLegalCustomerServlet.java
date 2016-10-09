@@ -39,8 +39,8 @@ public class UpdateLegalCustomerServlet extends HttpServlet {
         LegalCustomer legalCustomer = setLegalCustomerValues(
                 Integer.parseInt(request.getParameter("customerId")),
                 request.getParameter("companyName"),
-                request.getParameter("economicCode"),
-                request.getParameter("registrationDate")
+                request.getParameter("registrationDate"),
+                request.getParameter("economicCode")
         );
         legalCustomer = LegalCustomerLogic.updateLegalCustomer(legalCustomer);
         request.setAttribute("legalCustomer",legalCustomer);
@@ -57,19 +57,20 @@ public class UpdateLegalCustomerServlet extends HttpServlet {
         LegalCustomer legalCustomer = setLegalCustomerValues(
                 Integer.parseInt(request.getParameter("id")),
                 request.getParameter("companyName"),
-                request.getParameter("economicCode"),
-                request.getParameter("registrationDate")
+                request.getParameter("registrationDate"),
+                request.getParameter("economicCode")
         );
         request.setAttribute("legalCustomer",legalCustomer);
         getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-edit.jsp").forward(request,response);
     }
 
-    private LegalCustomer setLegalCustomerValues(Integer id, String name, String economicCode, String registrationDate) {
+    private LegalCustomer setLegalCustomerValues(Integer id, String name,String registrationDate, String economicCode ) {
         LegalCustomer legalCustomer = new LegalCustomer();
         legalCustomer.setCustomerId(id);
         legalCustomer.setCompanyName(name);
-        legalCustomer.setEconomicCode(economicCode);
         legalCustomer.setRegistrationDate(registrationDate);
+        legalCustomer.setEconomicCode(economicCode);
+
         return legalCustomer;
     }
 

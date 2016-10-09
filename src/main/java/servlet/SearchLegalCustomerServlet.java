@@ -1,7 +1,9 @@
 package servlet;
 
 import business_logic.LegalCustomerLogic;
+import business_logic.exceptions.DataNotFoundException;
 import data_access.entity.LegalCustomer;
+import util.ErrorMessage;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,13 +40,17 @@ public class SearchLegalCustomerServlet extends HttpServlet {
             } else if (searchFilter.equals("customerId")) {
                 legalCustomers = LegalCustomerLogic.searchById(searchValueStr);
             }
+
+            System.out.println(legalCustomers);
+            request.setAttribute("legalCustomers", legalCustomers);
+            getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-search-result.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
+        }catch (DataNotFoundException e){
+            getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-search-result.jsp").forward(request, response);
         }
 
-        System.out.println(legalCustomers);
-        request.setAttribute("legalCustomers", legalCustomers);
-        getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-search-result.jsp").forward(request, response);
+
 
     }
 }

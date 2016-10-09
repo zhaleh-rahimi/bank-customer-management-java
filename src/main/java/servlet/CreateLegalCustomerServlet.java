@@ -1,8 +1,11 @@
 package servlet;
 
 import business_logic.LegalCustomerLogic;
+import business_logic.exceptions.DuplicateInformationException;
+import business_logic.exceptions.FieldRequiredException;
 import data_access.LegalCustomerCRUD;
 import data_access.entity.LegalCustomer;
+import util.ErrorMessage;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,21 +25,34 @@ public class CreateLegalCustomerServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-
         LegalCustomer legalCustomer = new LegalCustomer();
-        legalCustomer.setCompanyName(request.getParameter("companyName"));
-        legalCustomer.setRegistrationDate(request.getParameter("registrationDate"));
-        legalCustomer.setEconomicCode(request.getParameter("economicCode"));
-        System.out.println(legalCustomer.toString());
-
+        ErrorMessage errorMessage = new ErrorMessage();
         try {
+
+            legalCustomer.setCompanyName(request.getParameter("companyName"));
+            legalCustomer.setRegistrationDate(request.getParameter("registrationDate"));
+            legalCustomer.setEconomicCode(request.getParameter("economicCode"));
+            System.out.println(legalCustomer.toString());
+
+
             LegalCustomerLogic.create(legalCustomer);
+            request.setAttribute("legalCustomer", legalCustomer);
+            getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-registration-result.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (FieldRequiredException e) {
+            errorMessage.info= "ورود همه فیلدها الزامی است.";
+            errorMessage.header="عملیات ناموفق";
+            request.setAttribute("error",errorMessage );
+            getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-registration-result.jsp").forward(request, response);
+        } catch (DuplicateInformationException e) {
+            errorMessage.info= "شماره اقتصادی وارد شده تکراری است.";
+            errorMessage.header="عملیات ناموفق";
+            request.setAttribute("info",errorMessage );
+            getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-registration-result.jsp").forward(request, response);
         }
 
-        request.setAttribute("legalCustomer", legalCustomer);
-        getServletConfig().getServletContext().getRequestDispatcher("/legal-customer-registration-result.jsp").forward(request, response);
+
 
     }
 
