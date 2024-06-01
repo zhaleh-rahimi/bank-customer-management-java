@@ -1,4 +1,4 @@
-# myThirdApp
+# Bank customer management system
 ## This is an app to manage 2 types of customers. natural customers and legal customers in a banking system.
 ## functionalities are:
 - select the type of customer
